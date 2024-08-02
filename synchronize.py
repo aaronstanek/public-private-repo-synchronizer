@@ -12,7 +12,7 @@ for environment_variable_name in ["GH_TOKEN", "SYNC_SOURCE", "SYNC_GH_URL"]:
         print("Stopping Sync")
         exit(1)
 
-SYNC_SOURCE = os.environ["SYNC_SOURCE"]
+SYNC_SOURCE = os.path.join("source", os.environ["SYNC_SOURCE"])
 SYNC_GH_URL = os.environ["SYNC_GH_URL"]
 
 if not os.path.isdir(SYNC_SOURCE):
