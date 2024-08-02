@@ -1,8 +1,8 @@
 import os
-import shutil
 
-from commit_and_upload import commit_and_upload
+from lock_in_destination import lock_in_destination
 from ignore_from_source import ignore_from_source
+from commit_and_upload import commit_and_upload
 
 for environment_variable_name in ["GH_TOKEN", "SYNC_SOURCE", "SYNC_GH_URL"]:
     if environment_variable_name not in os.environ:
@@ -22,9 +22,9 @@ if not os.path.isdir(SYNC_SOURCE):
     print("Stopping Sync")
     exit(1)
 
-ignore_from_source()
+ignore_from_source(SYNC_SOURCE)
 
-shutil.move("destination/.git", SYNC_SOURCE)
+lock_in_destination(SYNC_SOURCE)
 
 commit_and_upload(SYNC_SOURCE, SYNC_GH_URL)
 
