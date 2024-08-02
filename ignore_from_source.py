@@ -3,6 +3,8 @@ import shutil
 import pathlib
 import json
 
+from delete_path import delete_path
+
 CONFIG_FILE_NAME = ".synchronizer-config.json"
 
 def read_config(SYNC_SOURCE):
@@ -49,9 +51,4 @@ def ignore_from_source(SYNC_SOURCE):
 
     for element in ignore:
         full_path = os.path.join(SYNC_SOURCE, element)
-        if not os.path.exists(full_path):
-            continue
-        if os.path.isdir(full_path):
-            shutil.rmtree(full_path)
-        else:
-            pathlib.Path(full_path).unlink()
+        delete_path(full_path)
