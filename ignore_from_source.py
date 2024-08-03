@@ -1,6 +1,4 @@
 import os
-import shutil
-import pathlib
 import json
 
 from delete_path import delete_path
