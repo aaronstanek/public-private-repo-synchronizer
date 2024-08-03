@@ -1,7 +1,8 @@
 import os
 
-from lock_in_destination import lock_in_destination
 from ignore_from_source import ignore_from_source
+from move_to_subfolder import move_to_subfolder
+from lock_in_destination import lock_in_destination
 from commit_and_upload import commit_and_upload
 
 for environment_variable_name in ["GH_TOKEN", "SYNC_SOURCE", "SYNC_GH_URL"]:
@@ -23,6 +24,8 @@ if not os.path.isdir(SYNC_SOURCE):
     exit(1)
 
 ignore_from_source(SYNC_SOURCE)
+
+SYNC_SOURCE = move_to_subfolder(SYNC_SOURCE)
 
 lock_in_destination(SYNC_SOURCE)
 
