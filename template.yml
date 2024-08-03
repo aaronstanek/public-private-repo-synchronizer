@@ -1,0 +1,63 @@
+name: Sync Projects
+
+on:
+  push:
+    branches: ['main']
+
+  workflow_dispatch:
+
+jobs:
+  # CHANGE my-project to be the name of your project
+  sync-my-project:
+    concurrency:
+      # CHANGE my-project to be the name of your project
+      group: ${{ github.workflow }}-sync-my-project
+      cancel-in-progress: false
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+        with:
+          path: source
+
+      - name: Setup GitHub
+        # CHANGE my-email to be your email
+        # CHANGE MY-NAME to be your name
+        run: |
+          git config --global user.email "my-email"
+          git config --global user.name "MY-NAME"
+      
+      - name: Clone Destination
+        env:
+          # CHANGE PERSONAL_ACCESS_TOKEN to be the name of the personal access token
+          # that has write access to the destination repository
+          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        # CHANGE both instances of MY_USERNAME to be your GitHub username
+        # CHANGE MY_REPO to the name of the destination repository
+        run: git clone https://MY_USERNAME:${GH_TOKEN}@github.com/MY_USERNAME/MY_REPO.git destination
+
+      - name: Clone Synchronizer
+        run: git clone https://github.com/aaronstanek/public-private-repo-synchronizer.git synchronizer --depth 1
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+      
+      - name: Synchronize
+        env:
+          # CHANGE PERSONAL_ACCESS_TOKEN to be the name of the personal access token
+          # that has write access to the destination repository
+          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          # CHANGE PATH_WITHIN_SOURCE_REPO_TO_COPY to be the portion of the source repository that you want
+          # to share publicly.
+          # For example if you want to share src/public-content,
+          # you would set SYNC_SOURCE to src/public-content
+          # NOTE always use a Unix-style path when running this synchronizer on GitHub Actions
+          SYNC_SOURCE: PATH_WITHIN_SOURCE_REPO_TO_COPY
+          # CHANGE both instances of MY_USERNAME to be your GitHub username
+          # CHANGE PERSONAL_ACCESS_TOKEN to be the name of the personal access token
+          # that has write access to the destination repository
+          # CHANGE MY_REPO to the name of the destination repository
+          SYNC_GH_URL: https://MY_USERNAME:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/MY_USERNAME/MY_REPO.git
+        run: python synchronizer/synchronize.py
