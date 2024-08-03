@@ -25,7 +25,7 @@ if not os.path.isdir(SYNC_SOURCE):
 
 ignore_from_source(SYNC_SOURCE)
 
-SYNC_SOURCE = move_to_subfolder(SYNC_SOURCE)
+move_to_subfolder(SYNC_SOURCE)
 
 lock_in_destination(SYNC_SOURCE)
 
