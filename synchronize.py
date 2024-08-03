@@ -1,5 +1,4 @@
 import os
-import subprocess
 
 from lock_in_destination import lock_in_destination
 from ignore_from_source import ignore_from_source
@@ -28,10 +27,5 @@ ignore_from_source(SYNC_SOURCE)
 lock_in_destination(SYNC_SOURCE)
 
 commit_and_upload(SYNC_SOURCE, SYNC_GH_URL)
-
-if subprocess.run(["git", "push", SYNC_GH_URL, "main"], cwd=SYNC_SOURCE).returncode != 0:
-    print("git push returned a nonzero return code")
-    print("Stopping Sync")
-    exit(1)
 
 print("Sync Complete")
