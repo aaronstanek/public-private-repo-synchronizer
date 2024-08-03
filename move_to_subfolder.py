@@ -49,15 +49,21 @@ def move_to_subfolder(SYNC_SOURCE):
 
     subfolder_path = read_config()
 
+    print(f"Debug subfolder_path {subfolder_path}")
+
     if subfolder_path is None:
         return SYNC_SOURCE
     
     copy_target = os.path.join("temp-for-subfolder-path", subfolder_path)
+
+    print(f"Debug copy_target {copy_target}")
     
     os.makedirs(copy_target)
 
     move_folder_contents(SYNC_SOURCE, copy_target)
 
     move_folder_contents("temp-for-subfolder-path", SYNC_SOURCE)
+
+    print(f"Debug new SYNC_SOURCE {os.path.join(SYNC_SOURCE, subfolder_path)}")
 
     return os.path.join(SYNC_SOURCE, subfolder_path)
