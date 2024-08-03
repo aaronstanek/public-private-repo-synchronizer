@@ -60,4 +60,6 @@ def lock_in_destination(SYNC_SOURCE):
                 delete_path(containing_folder_path)
             if not os.path.exists(containing_folder_path):
                 os.mkdir(containing_folder_path)
-        shutil.move(os.path.join("destination", element), containing_folder_path)
+        destination_path = os.path.join("destination", element)
+        if os.path.exists(destination_path):
+            shutil.move(os.path.join("destination", element), containing_folder_path)
