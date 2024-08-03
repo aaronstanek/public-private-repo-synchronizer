@@ -50,8 +50,3 @@ def commit_and_upload(SYNC_SOURCE, SYNC_GH_URL):
         print("git commit returned a nonzero return code")
         print("Stopping Sync")
         exit(1)
-
-    if subprocess.run(["git", "push", SYNC_GH_URL, "main"], cwd=SYNC_SOURCE).returncode != 0:
-        print("git push returned a nonzero return code")
-        print("Stopping Sync")
-        exit(1)
